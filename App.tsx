@@ -38,7 +38,7 @@ export default function App() {
   if (!isDbReady || isAuthenticated === null) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#4CAF50" />
+        <ActivityIndicator size="large" color="#9d4edd" />
         <Text style={{ marginTop: 10 }}>A carregar o seu Diário...</Text>
       </View>
     );
@@ -50,7 +50,7 @@ export default function App() {
       <StatusBar style="light" /> 
       
       {isAuthenticated ? (
-        <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: '#1A4D2E' }, headerTintColor: '#fff' }}>
+        <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: '#3c096c' }, headerTintColor: '#fff' }}>
           
           {/* A opção headerShown: false é o que remove a tal faixa branca dupla! */}
           <Stack.Screen name="Dashboard" options={{ headerShown: false }}>

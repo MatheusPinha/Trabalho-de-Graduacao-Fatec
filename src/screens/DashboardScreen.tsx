@@ -1,16 +1,18 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Modal, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Modal, TouchableWithoutFeedback, Alert } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { AuthService } from '../services/AuthService';
 import { RecordRepository } from '../repositories/RecordRepository';
 import HistoryCard from '../components/HistoryCard';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function DashboardScreen({ navigation }: any) {
   const [logs, setLogs] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const insets = useSafeAreaInsets();
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const loadData = async () => {
     try {
@@ -48,18 +50,29 @@ export default function DashboardScreen({ navigation }: any) {
         
         {/* Botão de Perfil no Canto Superior Direito */}
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Ionicons name="person-circle" size={48} color="#4CAF50" />
+          <Ionicons name="person-circle" size={48} color="#9d4edd" />
         </TouchableOpacity>
       </View>
 
       {/* 2. LISTA DE REGISTROS */}
       <View style={styles.content}>
-        <FlatList
-          data={logs}
-          keyExtractor={(item: any, index) => item.date + index} // Evita erro de chave duplicada
-          renderItem={({ item }) => <HistoryCard item={item} />}
-          ListEmptyComponent={<Text style={styles.empty}>Nenhum registro ainda.</Text>}
-          contentContainerStyle={{ padding: 20, paddingBottom: 100 }}
+<FlatList
+  data={logs}
+  keyExtractor={(item: any) => item.id.toString()}
+  renderItem={({ item }) => (
+    <TouchableOpacity onPress={() => {
+      Alert.alert(
+        "Opções do Registro",
+        "O que deseja fazer?",
+        [
+          { text: "Editar", onPress: () => navigation.navigate('DailyLog', { editRecordId: item.id }) },
+          { text: "Cancelar", style: "cancel" }
+        ]
+      );
+    }}>
+      <HistoryCard item={item} />
+    </TouchableOpacity>
+  )}
         />
       </View>
 
@@ -82,7 +95,7 @@ export default function DashboardScreen({ navigation }: any) {
                 <Text style={[styles.popupText, { fontWeight: 'bold' }]}>Hoje</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.popupOption} onPress={() => setModalVisible(false)}>
+                <TouchableOpacity style={styles.popupOption} onPress={() => setShowDatePicker(true)}>
                 <View style={[styles.iconCircle, { backgroundColor: '#ff9933' }]}>
                   <Ionicons name="calendar" size={24} color="#fff" />
                 </View>
@@ -97,11 +110,29 @@ export default function DashboardScreen({ navigation }: any) {
         </TouchableWithoutFeedback>
       </Modal>
 
+      {showDatePicker && (
+        <DateTimePicker
+          value={new Date()}
+          mode="date"
+          display="default"
+          maximumDate={new Date()} // Impede de registrar dias no futuro
+          onChange={(event, selectedDate) => {
+            setShowDatePicker(false);
+            if (event.type === 'set' && selectedDate) {
+              setModalVisible(false);
+              // Converte para a string 'YYYY-MM-DD'
+              const dateStr = selectedDate.toISOString().split('T')[0];
+              navigation.navigate('DailyLog', { selectedDateStr: dateStr });
+            }
+          }}
+        />
+      )}
+
       {/* 4. BARRA DE NAVEGAÇÃO INFERIOR */}
       <View style={[styles.bottomBar, { paddingBottom: insets.bottom > 0 ? insets.bottom : 10, height: 65 + (insets.bottom > 0 ? insets.bottom : 10) }]}>
         <TouchableOpacity style={styles.tabButton}>
-          <MaterialCommunityIcons name="text-box-outline" size={24} color="#4CAF50" />
-          <Text style={[styles.tabText, { color: '#4CAF50' }]}>Registros</Text>
+          <MaterialCommunityIcons name="text-box-outline" size={24} color="#9d4edd" />
+          <Text style={[styles.tabText, { color: '#9d4edd' }]}>Registros</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.tabButton}>
@@ -150,12 +181,12 @@ const styles = StyleSheet.create({
   content: { flex: 1 },
   empty: { textAlign: 'center', color: '#666', marginTop: 50 },
 
-  bottomBar: { flexDirection: 'row', backgroundColor: '#1A4D2E', height: 70, justifyContent: 'space-around', alignItems: 'center', paddingBottom: 10, borderTopWidth: 1, borderTopColor: '#2a5d3e' },
+  bottomBar: { flexDirection: 'row', backgroundColor: '#3c096c', height: 70, justifyContent: 'space-around', alignItems: 'center', paddingBottom: 10, borderTopWidth: 1, borderTopColor: '#2a5d3e' },
   tabButton: { alignItems: 'center', justifyContent: 'center', flex: 1 },
   tabText: { color: '#888', fontSize: 10, marginTop: 4 },
   
   fabContainer: { position: 'relative', width: 60, alignItems: 'center' },
-  fab: { position: 'absolute', bottom: -10, width: 65, height: 65, borderRadius: 35, backgroundColor: '#4CAF50', justifyContent: 'center', alignItems: 'center', elevation: 5, borderWidth: 3, borderColor: '#1A4D2E' },
+  fab: { position: 'absolute', bottom: -10, width: 65, height: 65, borderRadius: 35, backgroundColor: '#9d4edd', justifyContent: 'center', alignItems: 'center', elevation: 5, borderWidth: 3, borderColor: '#1A4D2E' },
 
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.8)', justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 120 },
   popupMenu: { flexDirection: 'row', justifyContent: 'space-around', width: '90%', marginBottom: 30 },

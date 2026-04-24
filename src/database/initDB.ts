@@ -1,7 +1,7 @@
-import * as SQLite from 'expo-sqlite';
+// src/database/initDB.ts
+import { openDatabaseSync } from 'expo-sqlite';
 
-// Inicializa o banco de dados de forma síncrona
-export const db = SQLite.openDatabaseSync('daylio_tg.db');
+export const db = openDatabaseSync('daylio_tg.db');
 
 export const initializeDatabase = async () => {
   try {
@@ -35,6 +35,14 @@ export const initializeDatabase = async () => {
         awakenings INTEGER NOT NULL DEFAULT 0,
         origem_dado TEXT NOT NULL CHECK(origem_dado IN ('manual', 'google_fit', 'apple_health')),
         FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+      );
+
+      -- ESTA É A TABELA QUE FALTAVA PARA AS TAGS!
+      CREATE TABLE IF NOT EXISTS record_activities (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        record_id INTEGER NOT NULL,
+        activity_id INTEGER NOT NULL,
+        FOREIGN KEY (record_id) REFERENCES daily_records (id) ON DELETE CASCADE
       );
     `);
     console.log('✅ Banco de dados inicializado com sucesso!');

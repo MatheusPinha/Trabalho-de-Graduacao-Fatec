@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthService } from '../services/AuthService';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen({ onLogout }: any) {
   
@@ -14,7 +15,7 @@ export default function ProfileScreen({ onLogout }: any) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
         <View style={styles.imageContainer}>
           {/* Ícone gigante simulando a foto */}
@@ -34,7 +35,7 @@ export default function ProfileScreen({ onLogout }: any) {
         <Ionicons name="log-out-outline" size={24} color="#ff4d4d" />
         <Text style={styles.logoutText}>Sair do Aplicativo</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#121212', padding: 20 },
   header: { alignItems: 'center', marginTop: 40, marginBottom: 50 },
   imageContainer: { position: 'relative' },
-  editBadge: { position: 'absolute', bottom: 10, right: 5, backgroundColor: '#4CAF50', padding: 8, borderRadius: 20, borderWidth: 3, borderColor: '#121212' },
+  editBadge: { position: 'absolute', bottom: 10, right: 5, backgroundColor: '#9d4edd', padding: 8, borderRadius: 20, borderWidth: 3, borderColor: '#121212' },
   name: { fontSize: 26, fontWeight: 'bold', color: '#fff', marginTop: 15 },
   subtitle: { fontSize: 14, color: '#888', marginTop: 5 },
   

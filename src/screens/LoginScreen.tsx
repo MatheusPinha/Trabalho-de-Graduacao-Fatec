@@ -97,9 +97,9 @@ export default function LoginScreen({ onLoginSuccess }: { onLoginSuccess: () => 
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#000000' },
-  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 30, textAlign: 'center', color: '#4CAF50' },
+  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 30, textAlign: 'center', color: '#9d4edd' },
   input: { backgroundColor: '#fff', padding: 15, borderRadius: 10, marginBottom: 15, borderWidth: 1, borderColor: '#ddd', fontSize: 16 },
-  button: { backgroundColor: '#4CAF50', padding: 15, borderRadius: 10, alignItems: 'center', marginTop: 10 },
+  button: { backgroundColor: '#9d4edd', padding: 15, borderRadius: 10, alignItems: 'center', marginTop: 10 },
   buttonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
   toggleButton: { marginTop: 20, alignItems: 'center' },
   toggleText: { color: '#2196F3', fontSize: 16, fontWeight: '600' }

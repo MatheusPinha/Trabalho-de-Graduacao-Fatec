@@ -1,6 +1,6 @@
 # Trabalho de Graduação (Fatec) - Diário e Monitoramento do Ciclo Circadiano
 
-Aplicativo mobile desenvolvido em React Native (Expo) inspirado na experiência de usuário do Daylio. O objetivo principal do projeto é permitir o registro granular do humor, horas de sono, atividades diárias (tags) e sonhos para cruzamento de dados e análise do ciclo circadiano do usuário.
+Aplicativo mobile desenvolvido em React Native (Expo) inspirado na experiência de usuário do Daylio. O objetivo principal do projeto é permitir o registro granular do humor, horas de sono, qualidade do sono e atividades diárias (tags) para cruzamento de dados e análise do ciclo circadiano do usuário.
 
 ## 🛠 Tecnologias e Stack
 - **Framework:** React Native com [Expo](https://expo.dev/) (Managed Workflow)
